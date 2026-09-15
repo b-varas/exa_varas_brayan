@@ -10,8 +10,8 @@ class Producto extends Model
     protected $fillable = [
         'sku',
         'nombre',
-        'descripcion corta',
-        'descripcion larga',
+        'descripcion_corta',
+        'descripcion_larga',
         'imagen',
         'precio_neto',
         'precio_venta',

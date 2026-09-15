@@ -20,8 +20,8 @@
 
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle arrow-none nav-icon" data-bs-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="false" aria-expanded="false" data-bs-offset="0,19">
-                    <img src="/images/flags/us_flag.jpg" alt="" class="thumb-sm rounded-circle">
+                        aria-haspopup="false" aria-expanded="false" data-bs-offset="0,19">
+                        <img src="/images/flags/us_flag.jpg" alt="" class="thumb-sm rounded-circle">
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#"><img src="/images/flags/us_flag.jpg" alt="" height="15" class="me-2">English</a>
@@ -227,8 +227,8 @@
                                 <img src="/images/users/avatar-1.jpg" alt="" class="thumb-md rounded-circle">
                             </div>
                             <div class="flex-grow-1 ms-2 text-truncate align-self-center">
-                                <h6 class="my-0 fw-medium text-dark fs-13">William Martin</h6>
-                                <small class="text-muted mb-0">Front End Developer</small>
+                                <h6 class="my-0 fw-medium text-dark fs-13">{{ Auth::user()->nombre }} {{ Auth::user()->apellido }}</h6>
+                                <small class="text-muted mb-0">{{ Auth::user()->email }}</small>
                             </div><!--end media-body-->
                         </div>
                         <div class="dropdown-divider mt-0"></div>
@@ -240,7 +240,10 @@
                         <a class="dropdown-item" href="{{ route('second', ['pages', 'profile'])}}"><i class="las la-lock fs-18 me-1 align-text-bottom"></i> Security</a>
                         <a class="dropdown-item" href="{{ route('second', ['pages', 'faqs'])}}"><i class="las la-question-circle fs-18 me-1 align-text-bottom"></i> Help Center</a>
                         <div class="dropdown-divider mb-0"></div>
-                        <a class="dropdown-item text-danger" href="{{ route('second', ['auth', 'login'])}}"><i class="las la-power-off fs-18 me-1 align-text-bottom"></i> Logout</a>
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                            @csrf
+                            <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="las la-power-off fs-18 me-1 align-text-bottom"></i> Logout</a>
+                        </form>
                     </div>
                 </li>
             </ul><!--end topbar-nav-->
