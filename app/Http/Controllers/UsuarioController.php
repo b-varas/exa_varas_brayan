@@ -39,4 +39,44 @@ class UsuarioController extends Controller
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
     }
+
+    public function edit(User $usuario)
+    {
+        return view('usuarios.edit', compact('usuario'));
+    }
+
+    public function update(Request $request, User $usuario)
+    {
+        $request->validate([
+            'rut' => 'required|string|max:20|unique:users,rut,' . $usuario->id,
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $usuario->id, 'ends_with:@ventasfix.cl'],
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $usuario->rut = $request->rut;
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->email = $request->email;
+
+        if ($request->filled('password')) {
+            $usuario->password = bcrypt($request->password);
+        }
+
+        $usuario->save();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    public function destroy(User $usuario)
+    {
+        if ($usuario->id === auth()->id()) {
+            return redirect()->route('usuarios.index')->with('error', 'No puedes eliminar tu propio usuario mientras estás conectado.');
+        }
+
+        $usuario->delete();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+    }
 }
