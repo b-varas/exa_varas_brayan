@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -92,7 +93,7 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($producto->imagen) {
-                \Storage::disk('public')->delete($producto->imagen);
+                Storage::disk('public')->delete($producto->imagen);
             }
             $producto->imagen = $request->file('imagen')->store('productos', 'public');
         }
@@ -102,7 +103,7 @@ class ProductoController extends Controller
         return response()->json($producto, 200);
     }
 
-    public function destroy($id)
+     public function destroy($id)
     {
         $producto = Producto::find($id);
 
@@ -111,11 +112,12 @@ class ProductoController extends Controller
         }
 
         if ($producto->imagen) {
-            \Storage::disk('public')->delete($producto->imagen);
+            Storage::disk('public')->delete($producto->imagen);
         }
 
         $producto->delete();
 
         return response()->json(['message' => 'Producto eliminado correctamente'], 200);
     }
+
 }
