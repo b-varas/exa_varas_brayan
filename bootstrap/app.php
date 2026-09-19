@@ -15,5 +15,15 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+    $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
+        if ($request->is('api/*')) {
+            return response()->json(['message' => 'No autenticado.'], 401);
+        }
+    });
+
+    $exceptions->render(function (\Illuminate\Validation\ValidationException $e, \Illuminate\Http\Request $request) {
+        if ($request->is('api/*')) {
+            return response()->json(['message' => 'Error de validación', 'errors' => $e->errors()], 422);
+        }
+    });
+})->create();

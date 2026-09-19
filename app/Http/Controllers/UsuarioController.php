@@ -71,9 +71,9 @@ class UsuarioController extends Controller
 
     public function destroy(User $usuario)
     {
-        if ($usuario->id === auth()->id()) {
-            return redirect()->route('usuarios.index')->with('error', 'No puedes eliminar tu propio usuario mientras estás conectado.');
-        }
+            if ($usuario->id === (int) auth()->id()) {
+        return redirect()->route('usuarios.index')->with('error', 'No puedes eliminar tu propio usuario mientras estás conectado.');
+    }
 
         $usuario->delete();
 

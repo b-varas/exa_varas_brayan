@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -88,7 +89,7 @@ class ProductoController extends Controller
 
         if ($request->hasFile('imagen')) {
             if ($producto->imagen) {
-                \Storage::disk('public')->delete($producto->imagen);
+                Storage::disk('public')->delete($producto->imagen);
             }
             $producto->imagen = $request->file('imagen')->store('productos', 'public');
         }
@@ -101,7 +102,7 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         if ($producto->imagen) {
-            \Storage::disk('public')->delete($producto->imagen);
+            Storage::disk('public')->delete($producto->imagen);
         }
 
         $producto->delete();
